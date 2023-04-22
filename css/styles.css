@@ -23,13 +23,13 @@ body {
 }
 
 .title {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 700;
     margin-bottom: 8px;
 }
 
 .description {
-    font-size: 9px;
+    font-size: 14px;
     margin-bottom: 10px;
 }
 
