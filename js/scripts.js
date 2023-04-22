@@ -53,8 +53,8 @@ const map = new mapboxgl.Map({
     container: 'map', // container ID
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/streets-v12', // style URL
-    center: NY_COORDINATES, // starting position [lng, lat]
-    zoom: 10, // starting zoom
+    center: LONDON_COORDINATES, // starting position [lng, lat]
+    zoom: 11.5, // starting zoom
     bearing: 0,
     pitch: 0
 });
@@ -65,21 +65,7 @@ londonDATA.forEach(function (londonRecord) {
     );
 
     let color = '#ccc'
-    if (londonRecord.type === 'airport') {
-        color = '#fcba03'
-    }
-    if (londonRecord.type === 'hotel') {
-        color = '#0611d4'
-    }
-    if (londonRecord.type === 'market') {
-        color = '#953bf5'
-    }
-    if (londonRecord.type === 'soccer') {
-        color = '#ffa03b'
-    }
-    if (londonRecord.type === 'dinner') {
-        color = '#43fa6e'
-    }
+   
 
 
     new mapboxgl.Marker({
@@ -100,4 +86,49 @@ $('#head-to-london').on('click', function () {
     map.flyTo({
         center: [-0.12668, 51.50951]
     })
+})
+
+map.on('load', function () {
+    map.addSource('my-polygons',{
+        type:'geojson',
+        data: myPolygons
+    })
+    map.addLayer({
+        id:'fill-my-polygons',
+        type:'fill',
+        source:'my-polygons',
+    })
+ 
+    // add the point source and layer
+    map.addSource('my-points', {
+        type: 'geojson',
+        data: myPoints
+    })
+
+    map.addLayer({
+        id: 'circle-my-points',
+        type: 'circle',
+        source: 'my-points',
+        paint: {
+            'circle-color': '#ff1b0a',
+            'circle-radius': 8,
+            'circle-opacity': .6
+        }
+    })
+   map.addSource('my-lines',{
+    type:'geojson',
+    data: myLines
+   })
+   map.addLayer({
+    id:'line-my-lines',
+    type:'line',
+    source:'my-lines',
+    paint:{
+        'line-width': 4,
+        'line-color':'#f1f51d'
+    },
+    layout:{
+        'line-cap':'round'
+    }
+   })
 })
